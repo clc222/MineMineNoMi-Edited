@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         maven { url = "https://maven.minecraftforge.net" }
+        maven { url = "https://maven.minecraftforge.net/releases" }
         mavenCentral()
         jcenter()
     }
@@ -21,8 +22,10 @@ archivesBaseName = "mine-mine-no-mi-edited"
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 minecraft {
-    // DO NOT CHANGE — FG4 format
     mappings channel: "official", version: "1.16.5"
+
+    // ⭐ REQUIRED FIX FOR FG4
+    accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {
         client {
@@ -49,12 +52,12 @@ minecraft {
 
 repositories {
     maven { url = "https://maven.minecraftforge.net" }
+    maven { url = "https://maven.minecraftforge.net/releases" }
     mavenCentral()
     jcenter()
 }
 
 dependencies {
-    // ⭐ IMPORTANT: FG4 expects ONLY THIS — no extra mapping suffix
     minecraft "net.minecraftforge:forge:1.16.5-36.2.42"
 }
 
