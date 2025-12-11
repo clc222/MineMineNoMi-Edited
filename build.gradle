@@ -1,32 +1,33 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = "https://maven.minecraftforge.net" }
         mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "4.1.+", changing: true
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'maven-publish'
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "maven-publish"
 
-version = '1.16.5'
-group = 'xyz.pixelatedw'
-archivesBaseName = 'mine-mine-no-mi-edited'
+version = "1.16.5"
+group = "xyz.pixelatedw"
+archivesBaseName = "mine-mine-no-mi-edited"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    // DO NOT CHANGE — FG4 format
+    mappings channel: "official", version: "1.16.5"
 
     runs {
         client {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-
+            workingDirectory project.file("run")
+            property "forge.logging.console.level", "debug"
             mods {
                 mineminenomi {
                     source sourceSets.main
@@ -35,9 +36,8 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'debug'
-
+            workingDirectory project.file("run")
+            property "forge.logging.console.level", "debug"
             mods {
                 mineminenomi {
                     source sourceSets.main
@@ -48,15 +48,17 @@ minecraft {
 }
 
 repositories {
-    maven { url = 'https://maven.minecraftforge.net' }
+    maven { url = "https://maven.minecraftforge.net" }
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
+    // ⭐ IMPORTANT: FG4 expects ONLY THIS — no extra mapping suffix
     minecraft "net.minecraftforge:forge:1.16.5-36.2.42"
 }
 
-sourceSets.main.resources.srcDir 'src/main/resources'
+sourceSets.main.resources.srcDir "src/main/resources"
 
 tasks.withType(ProcessResources).configureEach {
     filesMatching("META-INF/mods.toml") {
@@ -64,7 +66,7 @@ tasks.withType(ProcessResources).configureEach {
     }
 }
 
-jar.finalizedBy('reobfJar')
+jar.finalizedBy("reobfJar")
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
