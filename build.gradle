@@ -1,31 +1,33 @@
-buildscript {
-    repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '6.0.+'
+}
+
+version = '1.16.5'
+group = 'xyz.pixelatedw'
+
+base {
+    archivesName = 'mine-mine-no-mi-edited'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-
-version = "1.16.5"
-group = "xyz.pixelatedw"
-archivesBaseName = "mine-mine-no-mi-edited"
-
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-
 minecraft {
     mappings channel: 'official', version: '1.16.5'
-    
+
+    copyIdeResources = true
+
     runs {
         client {
             workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+
             mods {
                 mineminenomi {
                     source sourceSets.main
@@ -34,9 +36,9 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run_server')
-            property 'forge.logging.markers', 'REGISTRIES'
+            workingDirectory project.file('run')
             property 'forge.logging.console.level', 'debug'
+
             mods {
                 mineminenomi {
                     source sourceSets.main
@@ -46,39 +48,25 @@ minecraft {
     }
 }
 
-repositories {
-    mavenCentral()
+sourceSets.main.resources {
+    srcDir 'src/main/resources'
 }
+
+repositories { }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.16.5-36.2.39"
+    minecraft "net.minecraftforge:forge:1.16.5-36.2.42"
 }
 
-jar {
-    manifest {
-        attributes(
-            "Specification-Title": "mineminenomi",
-            "Specification-Vendor": "YourName",
-            "Implementation-Title": project.name,
-            "Implementation-Version": version
-        )
+tasks.withType(ProcessResources).configureEach {
+    inputs.property "version", project.version
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
     }
 }
 
-reobf {
-    jar {}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            name = "local"
-            url = "file://${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
+jar.finalizedBy('reobfJar')
