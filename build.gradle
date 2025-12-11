@@ -1,9 +1,3 @@
-plugins {
-    id 'eclipse'
-    id 'idea'
-    id 'maven-publish'
-}
-
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
@@ -15,6 +9,9 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
 
 version = '1.16.5'
 group = 'xyz.pixelatedw'
@@ -28,7 +25,6 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -40,7 +36,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -53,7 +48,7 @@ minecraft {
 }
 
 repositories {
-    maven { url 'https://maven.minecraftforge.net' }
+    maven { url = 'https://maven.minecraftforge.net' }
     mavenCentral()
 }
 
