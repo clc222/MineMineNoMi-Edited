@@ -2,6 +2,7 @@ buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
+        jcenter() // REQUIRED for FG4 mappings
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
@@ -26,7 +27,6 @@ minecraft {
         client {
             workingDirectory project.file('run')
             property 'forge.logging.console.level', 'debug'
-
             mods {
                 mineminenomi {
                     source sourceSets.main
@@ -37,7 +37,6 @@ minecraft {
         server {
             workingDirectory project.file('run')
             property 'forge.logging.console.level', 'debug'
-
             mods {
                 mineminenomi {
                     source sourceSets.main
@@ -50,6 +49,7 @@ minecraft {
 repositories {
     maven { url = 'https://maven.minecraftforge.net' }
     mavenCentral()
+    jcenter() // REQUIRED
 }
 
 dependencies {
