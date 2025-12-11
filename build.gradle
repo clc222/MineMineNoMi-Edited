@@ -60,6 +60,17 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.16.5-36.2.42"
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'net.minecraftforge' && 
+            details.requested.name == 'forge') {
+
+            // ⭐ Force FG4 to use the UNMAPPED jar instead of the nonexistent mapped one
+            details.useTarget("net.minecraftforge:forge:1.16.5-36.2.42")
+        }
+    }
+}
+
 sourceSets.main.resources.srcDir "src/main/resources"
 
 tasks.withType(ProcessResources).configureEach {
